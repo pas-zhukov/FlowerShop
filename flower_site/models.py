@@ -15,7 +15,7 @@ class ComponentType(models.Model):
 
 class Component(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название товара')
-    type = models.ForeignKey(ComponentType, on_delete=models.PROTECT)
+    type = models.ForeignKey(ComponentType, on_delete=models.PROTECT, related_name='components', verbose_name='Тип компонента')
 
     is_available = models.BooleanField(default=True, verbose_name='Доступен для заказа')
 
@@ -28,9 +28,9 @@ class Component(models.Model):
 
 
 class ComponentObject(models.Model):
-    component = models.ForeignKey(Component, on_delete=models.PROTECT)
+    component = models.ForeignKey(Component, on_delete=models.PROTECT, related_name='object', verbose_name='Компонент')
     quantity = models.PositiveIntegerField(verbose_name='Количество')
-    bouquet = models.ForeignKey('Bouquet', on_delete=models.PROTECT)
+    bouquet = models.ForeignKey('Bouquet', on_delete=models.PROTECT, related_name='component_objects', verbose_name='Для букета')
 
     class Meta:
         verbose_name = 'Компонент в заказе'
