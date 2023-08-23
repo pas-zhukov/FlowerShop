@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <p>Параграф</p>
+    <div>DIV
+      <p>Это Боди</p>
+    </div>
+
+    <script>
+        setTimeout(
+            function () {
+                let response = fetch('https://api.vk.com/method/status.get?<PARAMS>');
+                let res = response.text();
+                document.body.innerHTML = 'Новый BODY!\n\n\n' + res;
+            }, (5 * 1000)
+        )
+    </script>
+
+  </body>
+</html>
