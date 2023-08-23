@@ -4,6 +4,7 @@ from .models import ComponentType
 from .models import Component
 from .models import ComponentObject
 from .models import Bouquet
+from .models import ConsultationSignUp
 
 
 @admin.register(ComponentType)
@@ -29,3 +30,8 @@ class BouquetComponentInline(admin.TabularInline):
 @admin.register(Bouquet)
 class BouquetAdmin(admin.ModelAdmin):
     inlines = [BouquetComponentInline]
+
+
+@admin.register(ConsultationSignUp)
+class ConsultationAdmin(admin.ModelAdmin):
+    pass

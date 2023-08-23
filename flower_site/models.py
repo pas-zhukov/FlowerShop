@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class ComponentType(models.Model):
@@ -15,6 +16,8 @@ class ComponentType(models.Model):
 class Component(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название товара')
     type = models.ForeignKey(ComponentType, on_delete=models.PROTECT)
+
+    is_available = models.BooleanField(default=True, verbose_name='Доступен для заказа')
 
     class Meta:
         verbose_name = 'Компонент'
@@ -53,5 +56,15 @@ class Bouquet(models.Model):
         return self.title
 
 
+class ConsultationSignUp(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Имя')
+    phone = PhoneNumberField(region='RU', verbose_name='Номер телефона')
+    is_active = models.BooleanField(default=True, verbose_name='Новый запрос на консультацию')
 
+    class Meta:
+        verbose_name = 'Запись на консультацию флориста'
+        verbose_name_plural = 'Записи на консультацию флориста'
+
+    def __str__(self):
+        return f'Запрос на консультацию от {self.name}, номер: {self.phone}. {"Ожидает консультации." if self.is_active else "Консультация проводится или уже проведена."}'
 
