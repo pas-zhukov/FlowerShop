@@ -23,6 +23,7 @@ class ComponentObjectAdmin(admin.ModelAdmin):
 
 class BouquetComponentInline(admin.TabularInline):
     model = ComponentObject
+    extra = 0
 
 
 @admin.register(Bouquet)
