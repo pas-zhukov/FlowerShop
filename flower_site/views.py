@@ -12,3 +12,11 @@ def quiz(request):
 
 def catalogue(request):
     return render(request, 'catalog.html')
+
+
+def consultation(request):
+    return render(request, 'consultation.html')
+
+
+def card(request):
+    return render(request, 'card.html')
