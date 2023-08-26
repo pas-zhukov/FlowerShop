@@ -3,3 +3,5 @@ Pillow==10.0.0
 environs==9.5.0
 django-phonenumber-field==7.1.0
 djangorestframework~=3.14.0
+django-phonenumbers==1.0.1
+psycopg2-binary==2.9.7
