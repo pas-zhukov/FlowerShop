@@ -10,6 +10,7 @@ from .serializers import ConsultationSerializer
 
 @api_view(['GET', 'POST'])
 def index(request):
+    print(request.data)
     if request.method == 'POST':
         serializer = ConsultationSerializer(data=request.data)
         if serializer.is_valid():

@@ -1,20 +1,20 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 {% load static %}
 {% block title %}
   <title>Flower Shop</title>
 {% endblock %}
 {% block content %}
-    {% if form_result == 'ok' %}
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Заявка на консультацию отправлена!</strong> Ожидайте звонка от нашего флориста.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% elif form_result == 'error' %}
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Не удалось отправить заявку на консультацию.</strong> Проверьте введенный номер телефона.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    {% endif %}
+  {% if form_result == 'ok' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Заявка на консультацию отправлена!</strong> Ожидайте звонка от нашего флориста.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% elif form_result == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Не удалось отправить заявку на консультацию.</strong> Проверьте введенный номер телефона.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endif %}
     <div class="mainBg">
       <header id="header">
         <div class="container">
