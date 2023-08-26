@@ -41,7 +41,7 @@ class ComponentObject(models.Model):
         verbose_name_plural = 'Компоненты в букете'
 
     def __str__(self):
-        return f'{self.component.title} - {self.quantity} шт.'
+        return f'{self.component.title} - {self.quantity} шт. В букете "{self.bouquet.title}"'
 
 
 class BouquetCategory(models.Model):

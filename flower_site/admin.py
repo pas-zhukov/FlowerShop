@@ -7,6 +7,12 @@ from .models import Bouquet
 from .models import ConsultationSignUp
 from .models import Order
 from .models import OrderedBouquet
+from .models import BouquetCategory
+
+
+@admin.register(BouquetCategory)
+class BouquetCategoryAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(ComponentType)
@@ -16,6 +22,7 @@ class ComponentTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Component)
 class ComponentAdmin(admin.ModelAdmin):
+    list_display = ['title', 'type', 'is_available']
     pass
 
 
@@ -31,6 +38,7 @@ class BouquetComponentInline(admin.TabularInline):
 
 @admin.register(Bouquet)
 class BouquetAdmin(admin.ModelAdmin):
+    list_display = ['title', 'price', 'height', 'width', 'is_available']
     inlines = [BouquetComponentInline]
 
 
@@ -46,8 +54,14 @@ class OrderedBouquetAdmin(admin.ModelAdmin):
 
 class OrderBouquetsInline(admin.TabularInline):
     model = OrderedBouquet
+    extra = 0
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    list_display = ['id', 'status', 'стоимость_заказа', 'payment_status','name', 'phone', 'address', 'delivery_interval',]
     inlines = [OrderBouquetsInline]
+
+    def стоимость_заказа(self, obj):
+        items = obj.bouquets.all()
+        return sum(item.fixed_price * item.count for item in items)
