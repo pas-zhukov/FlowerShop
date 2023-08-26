@@ -37,8 +37,8 @@ class ComponentObject(models.Model):
     bouquet = models.ForeignKey('Bouquet', on_delete=models.PROTECT, related_name='component_objects', verbose_name='Для букета')
 
     class Meta:
-        verbose_name = 'Компонент в заказе'
-        verbose_name_plural = 'Компоненты в заказе'
+        verbose_name = 'Компонент в букете'
+        verbose_name_plural = 'Компоненты в букете'
 
     def __str__(self):
         return f'{self.component.title} - {self.quantity} шт.'
@@ -67,7 +67,7 @@ class Bouquet(models.Model):
     price = models.DecimalField(
         'Цена',
         decimal_places=2,
-        max_digits=5,
+        max_digits=8,
         validators=[MinValueValidator(0)],
         null=True)  # FIXME УБРАТЬ НУЛЛ
 
@@ -81,9 +81,9 @@ class Bouquet(models.Model):
 
 class OrderedBouquet(models.Model):
     bouquet = models.ForeignKey(Bouquet, on_delete=models.PROTECT, related_name='ordered', verbose_name='Букет')
-    count = models.PositiveIntegerField('Количество')
+    count = models.PositiveIntegerField('Количество', default=1)
     fixed_price = models.DecimalField(decimal_places=2,
-                                      max_digits=5,
+                                      max_digits=8,
                                       validators=[MinValueValidator(0, 0)],
                                       verbose_name='Стоимость букета',
                                       null=True)  # FIXME УБРАТЬ НУЛЛ
@@ -91,7 +91,7 @@ class OrderedBouquet(models.Model):
 
     class Meta:
         verbose_name = 'Букет в заказе'
-        verbose_name_plural = 'Букеты в заказах'
+        verbose_name_plural = 'Букеты в заказе'
 
     def __str__(self):
         return f'{self.bouquet.title} - в заказе {self.order.id}'
@@ -103,29 +103,25 @@ class Order(models.Model):
                       (2, 'В доставке'),
                       (3, 'Завершён')]
 
-    @staticmethod
-    def delivery_intervals():
-        now = timezone.now().replace(minute=0, second=0, microsecond=0)
-        tomorrow = now + timedelta(days=1)
-        intervals = []
-        for start_hour in range(10, 20, 2):
-            tomorrow = tomorrow.replace(hour=start_hour)
-            intervals.append(((tomorrow, tomorrow + timedelta(hours=2)),
-                              f'Завтра ({tomorrow.strftime("%d.%m")}) с {start_hour} до {start_hour + 2}'))
-
-        delivery_intervals = [
-            ((timezone.now(), timedelta(hours=2)), 'Как можно скорее'),
-            *intervals
-        ]
-        return delivery_intervals
+    payment_statuses = [
+        (0, 'Не оплачен'),
+        (1, 'Оплачен'),
+    ]
 
     name = models.CharField(max_length=200, verbose_name='Имя')
     phone = PhoneNumberField(region='RU', verbose_name='Номер телефона')
     email = models.EmailField(blank=True, null=True)
     address = models.TextField(verbose_name='Адрес доставки')
-    # TODO: починить интервал доставки
-    # delivery_interval = DateTimeRangeField(verbose_name='Интервал доставки')  # TODO: сделать choices рабочими
+    delivery_interval = models.CharField(verbose_name='Интервал доставки', max_length=20)
     status = models.IntegerField(default=0, choices=order_statuses, db_index=True, verbose_name='Статус заказа')
+    payment_status = models.IntegerField(default=0, choices=payment_statuses, verbose_name='Статус оплаты')
+
+    def __str__(self):
+        return f'Заказ №{self.id}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 
 class ConsultationSignUp(models.Model):

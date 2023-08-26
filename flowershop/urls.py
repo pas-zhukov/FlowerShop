@@ -16,9 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from flower_site.views import index, quiz, catalogue, consultation, card
+from flower_site.views import index, quiz, catalogue, consultation, card, order, order_payment
 
-import flower_site.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +25,7 @@ urlpatterns = [
     path('quiz/', quiz, name='quiz'),
     path('catalogue/', catalogue, name='catalogue'),
     path('consultation/', consultation, name='consultation'),
-    path('card/', card, name='card')
+    path('card/', card, name='card'),
+    path('order/', order, name='order'),
+    path('order/payment/', order_payment, name='order_payment')
 ]

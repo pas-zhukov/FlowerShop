@@ -1,16 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from urllib.parse import urlencode
+from django.views.decorators.http import require_http_methods
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db import transaction
 
-from .serializers import ConsultationSerializer
+from .serializers import ConsultationSerializer, BouquetIDSerializer, OrderSerializer
+
+from .models import Bouquet
 
 
-@api_view(['GET', 'POST'])
+@require_http_methods(['GET', 'POST'])
 def index(request):
-    print(request.data)
     if request.method == 'POST':
         serializer = ConsultationSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,3 +45,41 @@ def consultation(request):
 
 def card(request):
     return render(request, 'card.html')
+
+
+@require_http_methods(['GET'])
+def order(request):
+    if request.GET.get('error'):
+        return render(request, 'order.html', context={
+            'bouquet_id': request.GET.get('bouquet_id'),
+            'bad_result': True
+        })
+
+    try:
+        bouquet_id = request.GET['bouquet_id']
+    except KeyError:
+        return redirect('/')
+
+    serializer = BouquetIDSerializer(data={'bouquet_id': bouquet_id})
+    if serializer.is_valid():
+        return render(request, 'order.html', context={
+            'bouquet_id': bouquet_id,
+        })
+    else:
+        return redirect('/')
+
+
+@api_view(['POST'])
+def order_payment(request):
+    serializer = OrderSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return render(request, 'order-step.html')
+    else:
+        return order_error_redirect(order, error=True, bouquet_id=request.POST.get('bouquet_id'))
+
+
+def order_error_redirect(url_name, *args, **kwargs):
+    url = reverse(url_name, args=args)
+    params = urlencode(kwargs)
+    return redirect(url + "?%s" % params)
