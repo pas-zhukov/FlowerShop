@@ -10,10 +10,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Заявка на консультацию отправлена!</strong> Ожидайте звонка от нашего флориста.
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+  {% if form_result == 'ok' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Заявка на консультацию отправлена!</strong> Ожидайте звонка от нашего флориста.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% elif form_result == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Не удалось отправить заявку на консультацию.</strong> Проверьте введенный номер телефона.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endif %}
 	<div class="mainBg">
 		<header id="header">
 			<div class="container">
@@ -104,8 +111,8 @@
 				<div class="title consultation__title">Оставьте заявку на консультацию</div>
 				<form action="#" class="consultation__form">
           {% csrf_token %}
-					<input type="text" name="fname" class="consultation__form_input" placeholder="Введите Имя" required>
-					<input type="text" name="tel" class="consultation__form_input" placeholder="+ 7 (999) 000 00 00" required>
+					<input type="text" name="name" class="consultation__form_input" placeholder="Введите Имя" required>
+					<input type="text" name="phone" class="consultation__form_input" placeholder="+ 7 (999) 000 00 00" required>
 					<button type="submit" formmethod="POST" class="consultation__form_btn">Отправить</button>
 				</form>
 			</div>
