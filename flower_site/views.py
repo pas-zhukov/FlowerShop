@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from urllib.parse import urlencode
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -32,8 +33,31 @@ def index(request):
         })
 
 
+@csrf_exempt
 def quiz(request):
     return render(request, 'quiz.html')
+
+
+@csrf_exempt
+def quiz_step(request):
+    # request.session['price'] = request.data.get('price')
+    return render(request, 'quiz-step.html')
+
+
+@api_view(['POST', 'GET'])
+def result(request):
+    if request.method == 'POST':
+        price = request.data.get('price')
+        if price == '<1000':
+            bouquet = Bouquet.objects.filter(price__lte=1000).order_by('-price').first()
+        elif price == '1000-5000':
+            bouquet = Bouquet.objects.filter(price__gte=1000, price__lte=5000).order_by('-price').first()
+        else:
+            bouquet = Bouquet.objects.all().order_by('-price').first()
+    else:
+        bouquet = Bouquet.objects.get(id=request.session['bouquet_id'])
+    components = bouquet.component_objects.all()
+    return render(request, 'result.html', {'bouquet': bouquet, 'components': components})
 
 
 def catalogue(request):
