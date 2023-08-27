@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from urllib.parse import urlencode
@@ -26,8 +26,9 @@ def index(request):
             'form_result': form_result
         })
     else:
+        recommended_bouquets = Bouquet.objects.all()[:3]
         return render(request, 'index.html', context={
-
+            'recommended_bouquets': recommended_bouquets
         })
 
 
@@ -36,15 +37,22 @@ def quiz(request):
 
 
 def catalogue(request):
-    return render(request, 'catalog.html')
+    bouquets = Bouquet.objects.all()[:3]
+    return render(request, 'catalog.html', {'bouquets': bouquets})
 
 
 def consultation(request):
     return render(request, 'consultation.html')
 
 
-def card(request):
-    return render(request, 'card.html')
+def card(request, pk):
+    bouquet = get_object_or_404(Bouquet, pk=pk)
+    components = bouquet.component_objects.all()
+    context = {
+        'bouquet': bouquet,
+        'components': components
+    }
+    return render(request, 'card.html', context)
 
 
 @require_http_methods(['GET'])

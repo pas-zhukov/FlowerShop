@@ -10,49 +10,19 @@
         <div class="catalog">
           <div class="title">Все букеты</div>
           <div class="catalog__block">
-            <div class="recommended__elems ficb recommended__elems_first">
-              <div class="recommended__block recommended__block_first">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Летнее утро</span>
-                  <span class="recommended__block_price">3 600 руб</span>
+            {%  for bouquet in bouquets %}
+              {% if forloop.counter0|divisibleby:3 %} <div class="row text-center"> {%  endif %}
+                <div class="col-md-4" onclick="window.location.href='{% url 'card' bouquet.id%}'" style="cursor: pointer">
+                    <div class="card">
+                        <img src={{bouquet.image.url}} alt="фото букета {{ bouquet.title }}">
+                        <div class="card-content">
+                          <h4>{{ bouquet.title }}</h4>
+                          <h4>{{ bouquet.price|floatformat:0 }} руб</h4>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="recommended__block recommended__block_sec">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Пламенный закат</span>
-                  <span class="recommended__block_price">3 600 руб</span>
-                </div>
-              </div>
-              <div class="recommended__block recommended__block_thr">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Осенний</span>
-                  <span class="recommended__block_price">3 600 руб</span>
-                </div>
-              </div>
-
-
-            </div>
-            <div class="recommended__elems ficb recommended__elems_sec">
-              <div class="recommended__block recommended__block_first">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Полевой</span>
-                  <span class="recommended__block_price">1 600 руб</span>
-                </div>
-              </div>
-              <div class="recommended__block recommended__block_sec">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Весенний</span>
-                  <span class="recommended__block_price">3 200 руб</span>
-                </div>
-              </div>
-              <div class="recommended__block recommended__block_thr">
-                <div class="recommended__block_elems ficb">
-                  <span class="recommended__block_intro">Нежный</span>
-                  <span class="recommended__block_price">2 900 руб</span>
-                </div>
-              </div>
-
-
+              {%  if forloop.counter|divisibleby:3 or forloop.last %}</div><!-- row closing --><hr>{%  endif %}
+            {%  endfor %}
             </div>
             <button class="btn largeBtn catalog__btn">Показать ещё</button>
           </div>

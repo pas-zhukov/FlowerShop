@@ -48,6 +48,19 @@
         <div class="recommended p100">
           <div class="title">Рекомендуем</div>
           <div class="recommended__elems ficb">
+            {%  for bouquet in recommended_bouquets %}
+                  <div class="col-md-4" onclick="window.location.href='{% url 'card' bouquet.id%}'">
+                      <div class="card">
+                          <img src={{bouquet.image.url}} alt="фото букета {{ bouquet.title }}">
+                          <div class="card-content">
+                            <h4>{{ bouquet.title }}</h4>
+                            <h4>{{ bouquet.price|floatformat:0 }} руб</h4>
+                          </div>
+                      </div>
+                  </div>
+              {%  endfor %}
+          </div>
+          <div class="recommended__elems ficb">
             <div class="recommended__block recommended__block_first">
               <div class="recommended__block_elems ficb">
                 <span class="recommended__block_intro">Летнее утро</span>

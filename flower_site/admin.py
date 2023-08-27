@@ -38,7 +38,7 @@ class BouquetComponentInline(admin.TabularInline):
 
 @admin.register(Bouquet)
 class BouquetAdmin(admin.ModelAdmin):
-    list_display = ['title', 'price', 'height', 'width', 'is_available']
+    list_display = ['id', 'title', 'price', 'height', 'width', 'is_available']
     inlines = [BouquetComponentInline]
 
 
