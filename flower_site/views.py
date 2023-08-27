@@ -13,7 +13,7 @@ from .serializers import ConsultationSerializer, BouquetIDSerializer, OrderSeria
 from .models import Bouquet
 
 
-@require_http_methods(['GET', 'POST'])
+@api_view(['GET', 'POST'])
 def index(request):
     if request.method == 'POST':
         serializer = ConsultationSerializer(data=request.data)

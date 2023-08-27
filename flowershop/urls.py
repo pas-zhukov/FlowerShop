@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from flower_site.views import index, quiz, catalogue, consultation, card, order, order_payment
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
@@ -29,3 +30,4 @@ urlpatterns = [
     path('order/', order, name='order'),
     path('order/payment/', order_payment, name='order_payment')
 ]
+urlpatterns += staticfiles_urlpatterns()
