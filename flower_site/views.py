@@ -37,7 +37,7 @@ def quiz(request):
 
 
 def catalogue(request):
-    bouquets = Bouquet.objects.all()[:3]
+    bouquets = Bouquet.objects.all()
     return render(request, 'catalog.html', {'bouquets': bouquets})
 
 

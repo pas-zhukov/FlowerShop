@@ -6,29 +6,28 @@
 {% block content %}
 {% include 'navbar.html' %}
     <section id="catalog">
-      <div class="container p100">
-        <div class="catalog">
-          <div class="title">Все букеты</div>
-          <div class="catalog__block">
-            {%  for bouquet in bouquets %}
-              {% if forloop.counter0|divisibleby:3 %} <div class="row text-center"> {%  endif %}
-                <div class="col-md-4" onclick="window.location.href='{% url 'card' bouquet.id%}'" style="cursor: pointer">
-                    <div class="card">
-                        <img src={{bouquet.image.url}} alt="фото букета {{ bouquet.title }}">
-                        <div class="card-content">
-                          <h4>{{ bouquet.title }}</h4>
-                          <h4>{{ bouquet.price|floatformat:0 }} руб</h4>
-                        </div>
-                    </div>
+    <div class="container p100">
+      <div class="catalog">
+        <div class="title">Все букеты</div>
+        <div class="container">
+          <div class="row justify-content-md-center">
+            {% for bouquet in bouquets %}
+                <div class="col-6 col-md-5" onclick="window.location.href='{% url 'card' bouquet.id%}'"
+                     style="background: url('{% get_media_prefix %}{{ bouquet.image | safe }}') no-repeat center bottom / cover; display: flex;
+                             width: 310px; height: 400px">
+                  <div class="recommended__block_elems ficb">
+                    <span class="recommended__block__left">{{ bouquet.title }}</span>
+                    <span class="recommended__block__right">{{ bouquet.price|floatformat:0 }} руб</span>
+                  </div>
                 </div>
-              {%  if forloop.counter|divisibleby:3 or forloop.last %}</div><!-- row closing --><hr>{%  endif %}
-            {%  endfor %}
-            </div>
-            <button class="btn largeBtn catalog__btn">Показать ещё</button>
+            {% endfor %}
           </div>
         </div>
+        <button class="btn largeBtn catalog__btn">Показать ещё</button>
       </div>
-    </section>
+    </div>
+    </div>
+  </section>
     <section id="consultation">
       <div class="container">
         <div class="consultation">
