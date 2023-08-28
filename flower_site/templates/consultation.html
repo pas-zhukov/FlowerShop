@@ -5,12 +5,10 @@
 {% endblock %}
 {% block content %}
 {% include 'navbar.html' %}
-<main>
-  <div class="container mt-header">
-    <section id="singUpConsultation">
-      <div class="container">
-        <div class="singUpConsultation">
-          <form action="#" class="singUpConsultation__form">
+  <section id="singUpConsultation">
+    <div class="container">
+      <div class="singUpConsultation">
+        <form action="#" class="singUpConsultation__form">
             <div class="title">Запись на консультацию</div>
             <input type="text" name="name" class="order__form_input" placeholder="Введите Имя" required>
             <input type="text" name="phone" class="order__form_input" placeholder="+ 7 (999) 000 00 00" required>
@@ -20,11 +18,9 @@
             </div>
             <button class="btn singUpConsultation__form_btn" formaction="{% url 'index' %}" formmethod="POST">Отправить</button>
           </form>
-          <div class="blockImgHiden"></div>
-        </div>
+        <div class="blockImgHiden"></div>
       </div>
-      <img src="{% static 'img/singUpConsultationImg.jpg' %}" alt="singUpConsultationImg" class="singUpConsultation__img">
-    </section>
-  </div>
-</main>
+    </div>
+    <img src="{% static 'img/singUpConsultationImg.jpg' %}" alt="singUpConsultationImg" class="singUpConsultation__img">
+  </section>
 {% endblock content %}

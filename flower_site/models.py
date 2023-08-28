@@ -60,6 +60,7 @@ class Bouquet(models.Model):
     image = models.ImageField(verbose_name='Фотография')
     height = models.IntegerField(verbose_name='Высота букета')
     width = models.IntegerField(verbose_name='Ширина букета')
+    description = models.TextField(verbose_name='Описание', blank=True,)
 
     is_available = models.BooleanField(default=True, verbose_name='Доступен для заказа')
 
